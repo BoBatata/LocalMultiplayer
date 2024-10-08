@@ -2,7 +2,7 @@
     "name": "InputControls",
     "maps": [
         {
-            "name": "Movement",
+            "name": "Player",
             "id": "043a9a55-b509-4da1-91ec-40c57febe8e5",
             "actions": [
                 {
@@ -13,6 +13,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "JoinGame",
+                    "type": "Button",
+                    "id": "db357db2-d8b4-48da-a157-21fe095c0d93",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -79,6 +88,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Walk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ebe420be-e173-4df4-9b98-6ad35d8b162b",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JoinGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "efcdc819-328d-43aa-b2c6-894812ece1a7",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JoinGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

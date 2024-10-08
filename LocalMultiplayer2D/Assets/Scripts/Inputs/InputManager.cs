@@ -11,7 +11,7 @@ public class InputManager
         EnablePlayerInput();
     }
 
-    public void EnablePlayerInput() => inputControls.Movement.Enable();
+    public void EnablePlayerInput() => inputControls.Player.Enable();
 
-    public void DisablePlayerInput() => inputControls.Movement.Disable();
+    public void DisablePlayerInput() => inputControls.Player.Disable();
 }
