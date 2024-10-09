@@ -174,7 +174,19 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 55b5e984-d304-436b-b77a-ff32fd1d4211
+    m_ActionName: Player/Walk[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/DualShock4GamepadHID/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: db357db2-d8b4-48da-a157-21fe095c0d93
+    m_ActionName: Player/JoinGame[/DualShock4GamepadHID/start,/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a3cd8888-ad80-4c07-a99b-15c9aecd2fe9
+    m_ActionName: Player/Dash[/Keyboard/e,/DualShock4GamepadHID/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

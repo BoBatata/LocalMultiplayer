@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public InputManager inputManager;
+    public InputManager inputManager { get; private set; }
 
     private List<PlayerInput> players = new List<PlayerInput>();
     [SerializeField] private List<Transform> initialSpawnPoints;

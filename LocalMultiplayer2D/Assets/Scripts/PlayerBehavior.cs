@@ -7,17 +7,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    private InputControls inputControls;
+    private InputControls inputControl;
 
-    private InputActionAsset inputAsset;
-    private InputActionMap player;
-    private InputAction move;
-    private InputAction dash;
+    private InputActionAsset inputActions;
+    private InputActionMap playerActionMap;
+    private InputAction moveAction;
+    private InputAction dashAction;
 
     private Rigidbody2D rigibody;
 
     [Header("Movement Variables")]
     private Vector2 moveDirection;
+    private bool dashed = false;
     private bool canDash = true;
     private bool isDashing;
     [SerializeField] private int velocity;
@@ -27,34 +28,42 @@ public class PlayerBehavior : MonoBehaviour
 
     private void Awake()
     {
+        inputControl = GameManager.instance.inputManager.inputControls;
+        inputActions = GetComponent<PlayerInput>().actions;
+        playerActionMap = inputActions.FindActionMap("Player");
+        moveAction = playerActionMap.FindAction("Walk");
+        dashAction = playerActionMap.FindAction("Dash");
+
         rigibody = GetComponent<Rigidbody2D>();
-
-        inputAsset = GetComponent<PlayerInput>().actions;
-        player = inputAsset.FindActionMap("Player");
     }
 
-
-    private void Start()
-    {
-        inputControls = GameManager.instance.inputManager.inputControls;
-        //GameManager.instance.inputManager.Dash += DashHandler;
-    }
-
-    private void Update()
+    private void FixedUpdate()
     {
         MoveHandler();
+        DashHandler();
     }
 
     private void MoveHandler()
     {
         if (isDashing) return;
-        moveDirection = move.ReadValue<Vector2>() * velocity;
+        moveDirection = moveAction.ReadValue<Vector2>() * velocity;
         rigibody.velocity = new Vector2(moveDirection.x * velocity, moveDirection.y * velocity);
     }
 
-    private void DashHandler(InputAction.CallbackContext obj)
+    private void OnDash(InputAction.CallbackContext context)
     {
-        if (canDash && obj.performed)
+        //dashed = context.ReadValue<bool>();
+        //dashed = context.action.triggered;
+
+        if (canDash && context.performed)
+        {
+            DashCorotine();
+        }
+    }
+         
+    private void DashHandler()
+    {
+        if (canDash && dashed)
         {
             DashCorotine();
         }
@@ -77,14 +86,13 @@ public class PlayerBehavior : MonoBehaviour
 
     private void OnEnable()
     {
-        move = player.FindAction("Walk");
-        player.FindAction("Dash").started += DashHandler;
-        player.Enable();
+        GameManager.instance.inputManager.EnablePlayerInput();
+        inputControl.Player.Dash.performed += OnDash;
     }
 
     private void OnDisable()
     {
-        player.FindAction("Dash").started -= DashHandler;
-        player.Disable();
+        GameManager.instance.inputManager.DisablePlayerInput();
+        inputControl.Player.Dash.performed -= OnDash;
     }
 }
