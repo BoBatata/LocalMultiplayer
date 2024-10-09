@@ -10,6 +10,7 @@ public class PlayerBehavior : MonoBehaviour
     private PlayerInputs playerInputs;
 
     private Rigidbody2D rigibody;
+    private TrailRenderer trailRenderer;
 
     [Header("Movement Variables")]
     private Vector2 moveDirection;
@@ -20,12 +21,16 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] private float dashTime;
     [SerializeField] private float dashCooldown;
 
+    [Header("Combat Variables")]
+    [SerializeField] private bool canKill = false;
+
     private void Awake()
     {
         canDash = true;
         playerInputs = GetComponent<PlayerInputs>();
 
         rigibody = GetComponent<Rigidbody2D>();
+        trailRenderer = GetComponent<TrailRenderer>();
     }
 
     private void FixedUpdate()
@@ -53,13 +58,23 @@ public class PlayerBehavior : MonoBehaviour
         canDash = false;
         isDashing = true;
         rigibody.velocity = new Vector2(moveDirection.x * dashForce, moveDirection.y * dashForce);
-        //trailRenderer.emitting = true;
+        trailRenderer.emitting = true;
         //animator.SetBool("isDashing", true);
+        canKill = true;
         yield return new WaitForSeconds(dashTime);
         isDashing = false;
-        //trailRenderer.emitting = false;
+        trailRenderer.emitting = false;
         //animator.SetBool("isDashing", false);
         yield return new WaitForSeconds(dashCooldown);
+        canKill = false;
         canDash = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag.Contains("Player") && canKill)
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }
