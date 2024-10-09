@@ -18,7 +18,7 @@ public class PlayerBehavior : MonoBehaviour
 
     [Header("Movement Variables")]
     private Vector2 moveDirection;
-    private bool canDash;
+    private bool canDash = true;
     private bool isDashing;
     [SerializeField] private int velocity;
     [SerializeField] private int dashForce;
@@ -37,7 +37,7 @@ public class PlayerBehavior : MonoBehaviour
     private void Start()
     {
         inputControls = GameManager.instance.inputManager.inputControls;
-        GameManager.instance.inputManager.Dash += DashHandler;
+        //GameManager.instance.inputManager.Dash += DashHandler;
     }
 
     private void Update()
@@ -52,10 +52,9 @@ public class PlayerBehavior : MonoBehaviour
         rigibody.velocity = new Vector2(moveDirection.x * velocity, moveDirection.y * velocity);
     }
 
-    private void DashHandler()
+    private void DashHandler(InputAction.CallbackContext obj)
     {
-
-        if (canDash)
+        if (canDash && obj.performed)
         {
             DashCorotine();
         }
@@ -79,10 +78,13 @@ public class PlayerBehavior : MonoBehaviour
     private void OnEnable()
     {
         move = player.FindAction("Walk");
+        player.FindAction("Dash").started += DashHandler;
+        player.Enable();
     }
 
     private void OnDisable()
     {
+        player.FindAction("Dash").started -= DashHandler;
         player.Disable();
     }
 }
