@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1675145595254061508}
   - component: {fileID: 7094082027841337347}
   - component: {fileID: 4694328192222361831}
+  - component: {fileID: 1255582548789716879}
   - component: {fileID: 9222093774775741873}
   m_Layer: 0
   m_Name: '[PlaceHolder] Player'
@@ -163,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: fc9c0a60bef21a4458cc8bfee3f54594, type: 3}
-  m_NotificationBehavior: 3
+  m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -184,7 +185,19 @@ MonoBehaviour:
     m_ActionId: db357db2-d8b4-48da-a157-21fe095c0d93
     m_ActionName: Player/JoinGame[/DualShock4GamepadHID/start,/Keyboard/enter]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9222093774775741873}
+        m_TargetAssemblyTypeName: PlayerBehavior, Assembly-CSharp
+        m_MethodName: DashHandler
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: a3cd8888-ad80-4c07-a99b-15c9aecd2fe9
     m_ActionName: Player/Dash[/Keyboard/e,/DualShock4GamepadHID/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
@@ -192,6 +205,20 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1255582548789716879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3909354376581626263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1141aa3579133fd458e5bfa9ae12ddb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {x: 0, y: 0}
+  dash: 0
 --- !u!114 &9222093774775741873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67cc69a3906557449530ee3dde1fda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 1
+  velocity: 2
   dashForce: 10
-  dashTime: 3
-  dashCooldown: 4
+  dashTime: 0.2
+  dashCooldown: 1

@@ -47,7 +47,7 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Dash"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""a3cd8888-ad80-4c07-a99b-15c9aecd2fe9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",

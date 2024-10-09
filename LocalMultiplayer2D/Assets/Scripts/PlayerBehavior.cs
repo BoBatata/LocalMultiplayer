@@ -7,18 +7,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    private InputControls inputControl;
-
-    private InputActionAsset inputActions;
-    private InputActionMap playerActionMap;
-    private InputAction moveAction;
-    private InputAction dashAction;
+    private PlayerInputs playerInputs;
 
     private Rigidbody2D rigibody;
 
     [Header("Movement Variables")]
     private Vector2 moveDirection;
-    private bool dashed = false;
     private bool canDash = true;
     private bool isDashing;
     [SerializeField] private int velocity;
@@ -28,11 +22,8 @@ public class PlayerBehavior : MonoBehaviour
 
     private void Awake()
     {
-        inputControl = GameManager.instance.inputManager.inputControls;
-        inputActions = GetComponent<PlayerInput>().actions;
-        playerActionMap = inputActions.FindActionMap("Player");
-        moveAction = playerActionMap.FindAction("Walk");
-        dashAction = playerActionMap.FindAction("Dash");
+        canDash = true;
+        playerInputs = GetComponent<PlayerInputs>();
 
         rigibody = GetComponent<Rigidbody2D>();
     }
@@ -46,26 +37,14 @@ public class PlayerBehavior : MonoBehaviour
     private void MoveHandler()
     {
         if (isDashing) return;
-        moveDirection = moveAction.ReadValue<Vector2>() * velocity;
+        moveDirection = playerInputs.move * velocity;
         rigibody.velocity = new Vector2(moveDirection.x * velocity, moveDirection.y * velocity);
     }
-
-    private void OnDash(InputAction.CallbackContext context)
+    public void DashHandler()
     {
-        //dashed = context.ReadValue<bool>();
-        //dashed = context.action.triggered;
-
-        if (canDash && context.performed)
+        if (canDash && playerInputs.dash)
         {
-            DashCorotine();
-        }
-    }
-         
-    private void DashHandler()
-    {
-        if (canDash && dashed)
-        {
-            DashCorotine();
+            StartCoroutine(DashCorotine());
         }
     }
 
@@ -77,22 +56,10 @@ public class PlayerBehavior : MonoBehaviour
         //trailRenderer.emitting = true;
         //animator.SetBool("isDashing", true);
         yield return new WaitForSeconds(dashTime);
-        //isDashing = false;
+        isDashing = false;
         //trailRenderer.emitting = false;
         //animator.SetBool("isDashing", false);
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
-    }
-
-    private void OnEnable()
-    {
-        GameManager.instance.inputManager.EnablePlayerInput();
-        inputControl.Player.Dash.performed += OnDash;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.instance.inputManager.DisablePlayerInput();
-        inputControl.Player.Dash.performed -= OnDash;
     }
 }
