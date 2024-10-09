@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     {
         players.Add(player);
 
-        Transform playerParent = player.transform.parent;
+        Transform playerParent = player.transform;
         playerParent.position = initialSpawnPoints[players.Count - 1].position;
 
         int layerToAdd = (int)Mathf.Log(playerLayers[players.Count - 1].value, 2);
